@@ -39,7 +39,6 @@ def oauth_login():
             "web": {
                 "client_id": CLIENT_ID,
                 "client_secret": CLIENT_SECRET,
-                # --- TYPO FIX IS HERE ---
                 "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                 "token_uri": "https://oauth2.googleapis.com/token",
                 "redirect_uris": [REDIRECT_URI],
@@ -75,7 +74,6 @@ def oauth_callback():
             "web": {
                 "client_id": CLIENT_ID,
                 "client_secret": CLIENT_SECRET,
-                # --- TYPO FIX IS HERE ---
                 "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                 "token_uri": "https://oauth2.googleapis.com/token",
                 "redirect_uris": [REDIRECT_URI],
