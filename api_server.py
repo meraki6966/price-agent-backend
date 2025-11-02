@@ -9,9 +9,11 @@ from scraper_engine import run_all_scrapers
 
 # === 1. SETUP THE FLASK APP ===
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "super-secret-key-for-local-dev")
+# We get this from Render's Environment Variables
+app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 
 # === 2. SETUP GOOGLE OAUTH ===
+# We get these from Render's Environment Variables
 CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
 REDIRECT_URI = 'https://price-agent-backend.onrender.com/api/oauth/callback'
@@ -21,7 +23,7 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 @app.route("/")
 def homepage_test():
     # This is a test route to make sure the server is alive
-    return "The NEW Price Agent server is ALIVE! (v2 with OAuth)"
+    return "The NEW Price Agent server is ALIVE! (v3 - TYPO FIXED)"
 
 # --- This is our "Scraper" route (from Phase 1) ---
 @app.route("/api/scrape")
@@ -45,8 +47,8 @@ def oauth_login():
             "web": {
                 "client_id": CLIENT_ID,
                 "client_secret": CLIENT_SECRET,
-                "auth_uri": "https.://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https.://oauth2.googleapis.com/token",
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                "token_uri": "https://oauth2.googleapis.com/token",
                 "redirect_uris": [REDIRECT_URI],
             }
         },
@@ -80,8 +82,8 @@ def oauth_callback():
             "web": {
                 "client_id": CLIENT_ID,
                 "client_secret": CLIENT_SECRET,
-                "auth_uri": "https.://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https.://oauth2.googleapis.com/token",
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                "token_uri": "https://oauth2.googleapis.com/token",
                 "redirect_uris": [REDIRECT_URI],
             }
         },
