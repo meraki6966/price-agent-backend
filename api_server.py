@@ -18,6 +18,11 @@ REDIRECT_URI = 'https://price-agent-backend.onrender.com/api/oauth/callback'
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 # --- This is our OLD "Scraper" route (from Phase 1) ---
+@app.route("/")
+def homepage_test():
+    # This is a test route to make sure the server is alive
+    return "The Price Agent server is alive!"
+
 @app.route("/api/scrape")
 def api_scrape_all():
     print("...API request received...")
