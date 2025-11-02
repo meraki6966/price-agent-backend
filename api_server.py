@@ -1,3 +1,7 @@
+# === V4 - Super-Clean Deploy ===
+import os
+from flask import Flask, jsonify, request, redirect, session
+... (rest of the code)
 import os
 from flask import Flask, jsonify, request, redirect, session
 from google_auth_oauthlib.flow import Flow
@@ -112,3 +116,4 @@ def oauth_callback():
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     app.run(debug=True, port=5000)
+
