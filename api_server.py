@@ -9,21 +9,12 @@ from scraper_engine import run_all_scrapers
 
 # === 1. SETUP THE FLASK APP ===
 app = Flask(__name__)
-# We MUST set a secret key for Flask to use "sessions" (to remember the user)
-# We will set this in Render's "Environment" settings
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "super-secret-key-for-local-dev")
 
 # === 2. SETUP GOOGLE OAUTH ===
-# We will set these in Render's "Environment" so they are safe
 CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-
-# This is the "callback" URL we promised Google
-# NOTE: This MUST be "https" for Google to trust it.
 REDIRECT_URI = 'https://price-agent-backend.onrender.com/api/oauth/callback'
-
-# This tells Google what we want to do.
-# We are asking for "read-only" permission for Gmail.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 # --- This is our OLD "Scraper" route (from Phase 1) ---
@@ -40,8 +31,6 @@ def api_scrape_all():
 
 
 # --- [NEW!] ROUTE 1: The "Login" Button ---
-# When the user clicks "Connect" in our extension, it will
-# send them to this URL.
 @app.route('/api/oauth/login')
 def oauth_login():
     # 1. Create a "flow" object using our Client ID and Secret
@@ -50,25 +39,24 @@ def oauth_login():
             "web": {
                 "client_id": CLIENT_ID,
                 "client_secret": CLIENT_SECRET,
-                "auth_uri": "https.://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https.://oauth2.googleapis.com/token",
+                # --- TYPO FIX IS HERE ---
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                "token_uri": "https://oauth2.googleapis.com/token",
                 "redirect_uris": [REDIRECT_URI],
             }
         },
         scopes=SCOPES
     )
     
-    # We must tell the flow where to redirect back to.
     flow.redirect_uri = REDIRECT_URI
 
     # 2. Generate the special Google "permission" URL
     authorization_url, state = flow.authorization_url(
         access_type='offline',
-        prompt='consent' # This makes sure they always see the "Allow" screen
+        prompt='consent'
     )
     
     # 3. Save the "state" in the user's session
-    # This is a security step to prevent attacks
     session['state'] = state
 
     # 4. Send the user to the Google "permission" page
@@ -76,7 +64,6 @@ def oauth_login():
 
 
 # --- [NEW!] ROUTE 2: The "Callback" Catcher ---
-# After the user clicks "Allow", Google sends them back HERE.
 @app.route('/api/oauth/callback')
 def oauth_callback():
     # 1. Check the "state" to make sure it's the same user
@@ -88,8 +75,9 @@ def oauth_callback():
             "web": {
                 "client_id": CLIENT_ID,
                 "client_secret": CLIENT_SECRET,
-                "auth_uri": "https.://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https.://oauth2.googleapis.com/token",
+                # --- TYPO FIX IS HERE ---
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                "token_uri": "https://oauth2.googleapis.com/token",
                 "redirect_uris": [REDIRECT_URI],
             }
         },
@@ -106,22 +94,15 @@ def oauth_callback():
 
     # 5. Get the user's permanent "Refresh Token"
     credentials = flow.credentials
-    # The "refresh_token" is the permanent key.
-    # We would save this in a secure database
-    # (For now, we just print it to the server log)
     print(f"--- NEW USER! ---")
     print(f"Refresh Token: {credentials.refresh_token}")
     
-    # We would save this token to a database,
-    # linked to this user (e.g., by user_id)
-    # save_token_to_db(user_id, credentials.refresh_token)
+    # We would save this token to a database
     
     # 6. Send the user to a "Success!" page
     return "<h1>Success!</h1><p>You have connected your Google Account. You can close this tab.</p>"
 
 # --- This part runs the server ---
-# (The 'if' block below is for local testing only. 
-# Render uses our 'gunicorn' command from the settings.)
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     app.run(debug=True, port=5000)
