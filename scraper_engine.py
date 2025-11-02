@@ -3,7 +3,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 from fuzzywuzzy import fuzz
-# We are "disabling" selenium for now to let the server deploy
+# We have "commented out" all selenium imports
 # from selenium import webdriver
 # from selenium.webdriver.common.by import By
 # from selenium.webdriver.chrome.service import Service
