@@ -17,12 +17,13 @@ CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
 REDIRECT_URI = 'https://price-agent-backend.onrender.com/api/oauth/callback'
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
-# --- This is our OLD "Scraper" route (from Phase 1) ---
+# --- NEW: A "Homepage" Test Route ---
 @app.route("/")
 def homepage_test():
     # This is a test route to make sure the server is alive
-    return "The Price Agent server is alive!"
+    return "The NEW Price Agent server is ALIVE! (v2 with OAuth)"
 
+# --- This is our "Scraper" route (from Phase 1) ---
 @app.route("/api/scrape")
 def api_scrape_all():
     print("...API request received...")
@@ -44,8 +45,8 @@ def oauth_login():
             "web": {
                 "client_id": CLIENT_ID,
                 "client_secret": CLIENT_SECRET,
-                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https://oauth2.googleapis.com/token",
+                "auth_uri": "https.://accounts.google.com/o/oauth2/auth",
+                "token_uri": "https.://oauth2.googleapis.com/token",
                 "redirect_uris": [REDIRECT_URI],
             }
         },
@@ -79,8 +80,8 @@ def oauth_callback():
             "web": {
                 "client_id": CLIENT_ID,
                 "client_secret": CLIENT_SECRET,
-                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https://oauth2.googleapis.com/token",
+                "auth_uri": "https.://accounts.google.com/o/oauth2/auth",
+                "token_uri": "https.://oauth2.googleapis.com/token",
                 "redirect_uris": [REDIRECT_URI],
             }
         },
