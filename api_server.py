@@ -20,7 +20,7 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 # We get these from Render's Environment Variables
 CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-REDIRECT_URI = 'https://price-agent-backend.onrender.com/api/oauth/callback'
+REDIRECT_URI = 'https.://price-agent-v2.onrender.com/api/oauth/callback'
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 # --- NEW: A "Homepage" Test Route ---
@@ -116,4 +116,5 @@ def oauth_callback():
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     app.run(debug=True, port=5000)
+
 
