@@ -14,9 +14,8 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 # === 2. SETUP GOOGLE OAUTH ===
 CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-# This is your NEW, CORRECT Railway URL
-REDIRECT_URI = 'https://price-agent-backend-production.up.railway.app/api/oauth/callback'
-# This is the CORRECT, TYPO-FREE Google URL
+# PASTE YOUR RAILWAY URL HERE:
+REDIRECT_URI = 'https_://[YOUR-RAILWAY-URL-HERE]/api/oauth/callback' 
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 # --- NEW: A "Homepage" Test Route ---
