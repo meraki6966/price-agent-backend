@@ -1,7 +1,3 @@
-# === V4 - Super-Clean Deploy ===
-import os
-from flask import Flask, jsonify, request, redirect, session
-... (rest of the code)
 import os
 from flask import Flask, jsonify, request, redirect, session
 from google_auth_oauthlib.flow import Flow
@@ -13,13 +9,14 @@ from scraper_engine import run_all_scrapers
 
 # === 1. SETUP THE FLASK APP ===
 app = Flask(__name__)
-# We get this from Render's Environment Variables
+# We get this from Railway's Environment Variables
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 
 # === 2. SETUP GOOGLE OAUTH ===
-# We get these from Render's Environment Variables
+# We get these from Railway's Environment Variables
 CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
+# THIS IS YOUR NEW, LIVE RAILWAY URL
 REDIRECT_URI = 'https://price-agent-backend-production.up.railway.app/api/oauth/callback'
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
@@ -27,7 +24,7 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 @app.route("/")
 def homepage_test():
     # This is a test route to make sure the server is alive
-    return "The NEW Price Agent server is ALIVE! (v3 - TYPO FIXED)"
+    return "The NEW Price Agent server is ALIVE! (v5 - Railway Fix)"
 
 # --- This is our "Scraper" route (from Phase 1) ---
 @app.route("/api/scrape")
@@ -107,8 +104,6 @@ def oauth_callback():
     print(f"--- NEW USER! ---")
     print(f"Refresh Token: {credentials.refresh_token}")
     
-    # We would save this token to a database
-    
     # 6. Send the user to a "Success!" page
     return "<h1>Success!</h1><p>You have connected your Google Account. You can close this tab.</p>"
 
@@ -116,6 +111,3 @@ def oauth_callback():
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     app.run(debug=True, port=5000)
-
-
-
