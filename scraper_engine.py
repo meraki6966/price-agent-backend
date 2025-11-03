@@ -13,7 +13,7 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 # === 2. SETUP GOOGLE OAUTH ===
 CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-REDIRECT_URI = 'https_://price-agent-backend-production.up.railway.app/api/oauth/callback' # This needs your new URL
+REDIRECT_URI = https.://price-agent-backend-production.up.railway.app # This needs your new URL
 SCOPES = ['https_://www.googleapis.com/auth/gmail.readonly']
 
 # --- NEW: A "Homepage" Test Route ---
@@ -81,3 +81,4 @@ def oauth_callback():
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     app.run(debug=True, port=5000)
+
